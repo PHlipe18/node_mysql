@@ -1,3 +1,4 @@
+const { request, response } = require("express")
 const express = require("express")
 const exphbs = require("express-handlebars")
 const mysql = require("mysql2")
@@ -15,8 +16,12 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
-app.get("/", (requisicao, resposta) => {
-    resposta.render("home")
+app.get("/register", (request, response) =>{
+    response.render("register")
+})
+
+app.get("/", (req, res) => {
+    res.render("home")
 })
 
 const conn = mysql.createConnection({
