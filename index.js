@@ -1,3 +1,4 @@
+const { request, response } = require("express")
 const express = require("express")
 const exphbs = require("express-handlebars")
 const mysql = require("mysql2")
@@ -37,6 +38,23 @@ app.post("/cadastrar/save", (request, response) =>{
         response.redirect("/")
     })
 })
+app.get("/book/:id", (request, response) =>{
+    const id = request.params.id
+
+const sql =`
+    SELECT * FROM  books
+    WHERE id =${id}
+    `
+
+    conn.query(sql, (error, data) =>{
+        if (error){
+            return console.log(error)
+
+        }
+        const book = data[0]
+        responsegi.render("book", {book})
+    })
+})
 
 app.get("/cadastrar", (request,response) =>{
     response.render("cadastrar")
@@ -63,8 +81,8 @@ const conn = mysql.createConnection({
     host: "localhost",
     user: "root",
     password:"root",
-    database: "nodemysql",
-    port:3307
+    database: "node-mysql",
+    port:3306
 })
 
 conn.connect((error)=>{
