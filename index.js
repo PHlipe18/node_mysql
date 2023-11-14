@@ -18,6 +18,23 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
+app.post("/edit/save", (request, response)=>{
+    const {id, title, pageqty} = request.body
+
+    const sql = `
+    UPDATE books
+    SET title ='${title}', pageqty = '${pageqty}'
+    WHERE id = ${id}
+    `
+
+    conn.query(sql, (error)=>{
+        if (error){
+        return console.log(error)
+      }
+      response.redirect("/")
+
+    })
+})
 
 
 app.post("/cadastrar/save", (request, response) =>{
@@ -52,11 +69,28 @@ const sql =`
 
         }
         const book = data[0]
-        responsegi.render("book", {book})
+        response.render("book", {book})
     })
 })
 
-app.get("/cadastrar", (request,response) =>{
+app.get("/edit/:id", (request,response) => {
+    const id = request.params.id
+    const sql = `
+    SELECT * FROM books
+    WHERE id = ${id}
+`
+conn.query(sql,(error, data) => {
+    if (error){
+        return console.log(error)
+    }
+    const book = data[0]
+
+    response.render('edit', {book})
+})
+})
+
+
+app.get("/cadastrar", (request,response) => {
     response.render("cadastrar")
 })
 
