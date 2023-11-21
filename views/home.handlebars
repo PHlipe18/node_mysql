@@ -5,10 +5,15 @@
             <h3>Título: {{this.title}}</h3>
             <p>Quantidade de páginas: {{this.pageqty}}</p>
 
-
+        
         <div class="buttons">
             <a href="/book/{{this.id}}" class="mais">ver mais</a>
             <a href="/edit/{{this.id}}" class="editar">Editar</a>
-        </div>
+            <form action="/delete/{{this.id}}" method="POST">
+              <input type="hidden" name="id" value="{{this.id}}">
+              <button class="excluir">Excluir</button>
+            </form>
+         </div>
+      </div>
     {{/each}}
 </main>

@@ -18,6 +18,24 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
+//rotas
+app.post("/delete/:id", (request, response) => {
+    const { id } = request.params
+
+    const sql = `
+      DELETE FROM books
+      WHERE id = ${id}
+    `
+
+    conn.query(sql, (error) => {
+        if (error) {
+            return console.log(error)
+        }
+
+        response.redirect("/")
+    })
+})
+
 app.post("/edit/save", (request, response)=>{
     const {id, title, pageqty} = request.body
 
@@ -32,7 +50,7 @@ app.post("/edit/save", (request, response)=>{
         return console.log(error)
       }
       response.redirect("/")
-
+        
     })
 })
 
